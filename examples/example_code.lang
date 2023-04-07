@@ -1,0 +1,40 @@
+
+// code to fetch countries' data, do some stuff and print to screen
+
+// country data class
+
+type Country {
+    name: string
+    code: string
+    flagImage: string
+    borders: string[]
+    continent: string
+    location: {lang: number, long: number, alt: number}
+    seas: string[]
+
+    operator add(a: Country, b: Country) -> string {
+        if (a.borders has b.code) {
+            return 'they share a border'
+        }
+
+        if (a.continent == b.continent) {
+            return 'they are in the same continent, <a.continent>'
+        }
+    }
+
+    fn borders_seas(this/self, countries: Country[]) {
+        return this.borders.map(border -> {code: string, mutual_seas: string[]} {
+            const b <- countries[.code == border]
+
+            return {code: b.code, mutual_seas: this.seas.intersect(b.seas)}
+        })
+    }
+}
+
+
+run {
+    const response: Country <- await call('https//:countries...')
+
+
+
+}

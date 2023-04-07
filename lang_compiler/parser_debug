@@ -1,0 +1,41 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    compare_op
+    literal
+    logic_op
+
+Grammar
+
+Rule 0     S' -> a
+Rule 1     a -> number
+Rule 2     a -> name
+Rule 3     a -> string
+Rule 4     a -> bool
+Rule 5     a -> arith_op number
+Rule 6     a -> name initialize expr
+Rule 7     a -> ( name )
+Rule 8     a -> name ( fn_call_args )
+
+Terminals, with rules where they appear
+
+(                    : 7 8
+)                    : 7 8
+arith_op             : 5
+bool                 : 4
+compare_op           : 
+error                : 
+initialize           : 6
+literal              : 
+logic_op             : 
+name                 : 2 6 7 8
+number               : 1 5
+string               : 3
+
+Nonterminals, with rules where they appear
+
+a                    : 0
+expr                 : 6
+fn_call_args         : 8
+

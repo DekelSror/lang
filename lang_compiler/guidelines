@@ -1,0 +1,44 @@
+
+statements 
+
+fn defn - fn my_fn (arg1: type1, arg2: type2) -> rv_type scope
+inline fn defn - (args) -> rv_type scope
+usertype defn - usertype my_ut scope?
+
+list init <- elems literals / names / fn calls / fns / types?
+my_list: string[] <- [4, var1, arg2, fn3()]
+
+dict init <- keys are anything that evals to string
+my_dict: number{} <- {'key1': val1, name1: fn()}
+
+usertype init <- instance <- MyType(params)
+
+if statement - if ( anything that evaluates to bool ) scope
+loop statement - loop ( compare expression, list, name ) scope
+
+for-like - loop(100, index_name) { }
+while like loop(my_num_var, 100) {  }
+forEach like - my_list.loop(elem_name {})
+
+
+scope { any code }
+
+expressions
+
+fn call - fn_name(args)
+method call - obj.method(implicit_this, args)
+arg fn call arg_name(args)
+
+subscribe [ number, name (of type number), fn call, filter expression ]
+
+filter expression - evaluates to bool, in obj scope (has access to obj attrs and metods)
+
+compare - literals, names, fn calls, usertype attributes - evals to bool
+arith_ops - x op y, op x
+logical_ops = x && y, ||
+bitwise_ops = x & y, ~x, x ^ y
+false_check = !x
+
+
+
+
