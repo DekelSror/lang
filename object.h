@@ -107,6 +107,7 @@ struct lang_object_api_s
 } ;
 
 
+
 bool_t cmp_obj_id(const object_t* a, const object_t* b);
 
 #endif // lang_object_h

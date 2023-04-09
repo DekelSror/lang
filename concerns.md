@@ -3,6 +3,8 @@
 ## notice that lists and dicts play two roles - they are c modules but are also
 ## types in the language
 
+
+
 1. make functions into objects - can we tell the difference with 16 bytes?
 2. memory for list vectors, dict tables, usertypes atts / methods,strings?
 3. default sizes, expansion of vectors / tables

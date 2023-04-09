@@ -6,11 +6,12 @@
 
 
 // adds type to user types table. Initializes all ops to NULL
-int create_user_type(const char* name, object_api_t* api);
+int create_usertype(const char* name);
 
 
 int add_attr(const char* type, const char* attr_name, const object_api_t* attr_api, object_t* default_val);
 
+int add_function(const char* fn_name, object_api_t* rv_type, fn_body_t body, long num_args, fn_arg_t* args);
 int add_method(const char* type, const char* method_name, lang_fn_t* fn);
 
 

@@ -1,3 +1,4 @@
+#include "mem_utils.h"
 #include "vector.h"
 #include "objmem.h"
 
@@ -11,7 +12,7 @@
 
 static object_t* create_list(object_t* initializer)
 {
-    object_t* this = obj_mem("list");
+    object_t* this = obj_mem();
     this->_api = &list_api;
     long initial_length = 0;
     list_api._set_attr(this, "length", &initial_length);
@@ -21,7 +22,7 @@ static object_t* create_list(object_t* initializer)
         return list_init(this, initializer);
     }
 
-    this->_value = Vector.create();
+    this->_value = Vector.create(list_mem(20), 20);
 
     return this;
 }
@@ -53,12 +54,13 @@ static object_t* list_method_filter(const object_t* list, lang_fn_t* fn, call_ar
         // throw
     }
 
-    vector_t* res_value = Vector.create();
+    object_t* rv = create_list(0);
 
     for (long i = 0; i < Vector.size(list->_value); i++)
     {
         object_t* elem = (object_t*)Vector.at(list->_value, i);
 
+        // attach obj at start of call_args
         call_arg_t fn_arg = {
             ._obj = elem,
             ._next = args
@@ -68,12 +70,9 @@ static object_t* list_method_filter(const object_t* list, lang_fn_t* fn, call_ar
 
         if (is_true(fn_res))
         {
-            Vector.add(res_value, elem);
+            Vector.add(rv->_value, elem);
         }
     }
-
-    object_t* rv = create_list(0);
-    rv->_value = res_value;
 
     return rv;
 }
@@ -97,7 +96,26 @@ static object_t* list_subscribe(object_t* list, object_t* expr)
 }
 
 
+static int list_enlarge(object_t* list)
+{
+    vector_t* old_value = (vector_t*)(list->_value);
+    vector_t* new_value = list_mem(old_value->_capacity * 2);
 
+    if (new_value != 0)
+    {
+        new_value->_capacity = old_value->_capacity * 2;
+        new_value->_elem_count = old_value->_elem_count;
+
+        Memutils.move(new_value->_arr, old_value, old_value->_elem_count * sizeof(void*));
+        list->_value = new_value;
+        obj_free(old_value);
+        return 0;
+    }
+    else 
+    {
+        return 1;
+    }
+}
 
 static object_t* list_init(object_t* this, object_t* _raw_list) {
     // check the right side exprerssion
@@ -120,7 +138,7 @@ int lp_list_prepare(void) {
     Table.insert(list_api._attrs, "length", &number_api);
 
     Table.insert(list_api._methods, "map", 0);
-    Table.insert(list_api._methods, "filter", 0);
+    Table.insert(list_api._methods, "filter", list_method_filter);
     Table.insert(list_api._methods, "sort", 0);
     Table.insert(list_api._methods, "reduce", 0);
 

@@ -9,6 +9,7 @@
 
 #include "lp_number.h"
 #include "lp_list.h"
+#include "lp_dict.h"
 #include "lp_string.h"
 #include "lp_bool.h"
 

@@ -42,6 +42,7 @@ static long vector_size(const vector_t* vector)
     return vector->_elem_count;
 }
 
+
 const vector_api_t Vector = {
     .create = vector_create,
     .destroy = vector_destroy,

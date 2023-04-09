@@ -6,10 +6,11 @@
 void validate_args(lang_fn_t* fn, call_arg_t* call_args)
 {
     call_arg_t* call_arg = call_args;
-    fn_arg_t* fn_arg = fn->_args;
     
-    for (; fn_arg != 0; fn_arg = fn_arg->_next)
+    for (long i = 0; i < fn->_num_args; i++)
     {
+        fn_arg_t* fn_arg = fn->_args + i;
+
         if (call_arg == 0)
         {
             // less args than expected 

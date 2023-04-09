@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "primitives.h"
 #include "lp_function.h"
-
+#include "usertype.h"
 
 /*
     fn my_func (number a, number b) -> number {
@@ -40,29 +40,23 @@ int main(void)
 {
     prepare();
 // define my_func
-    fn_arg_t arg_2 = {
-        ._name = "b",
-        ._type = &number_api,
-        ._default_val = 0,
-        ._next = 0
+    fn_arg_t args[2] = {
+        {
+            ._name = "a",
+            ._type = &number_api,
+            ._default_val = 0,
+        },
+        {
+            ._name = "b",
+            ._type = &number_api,
+            ._default_val = 0,
+        }
     };
 
-    fn_arg_t arg_1 = {
-        ._name = "a",
-        ._type = &number_api,
-        ._default_val = 0,
-        ._next = &arg_2
-    };
 
-    lang_fn_t userfn_1 = {
-        ._name = "my_func",
-        ._rv_type = &number_api,
-        ._args = &arg_1,
-        ._body = &my_func
-    };
-
-// store function
-    long userfn_1_index = Vector.add(program_functions, &userfn_1);
+// register function
+    add_function("my_func", &number_api, &my_func, 2, args);
+    
 // call my_func
     double nums[2] = {10, 20};
 
@@ -79,7 +73,9 @@ int main(void)
         ._next = &carg2
     };
 
-    object_t* res = fn_call(Vector.at(program_functions, userfn_1_index), &carg1);
+    lang_fn_t* fn = Table.find(program_functions, "my_func");
+
+    object_t* res = fn_call(fn, &carg1);
 
     number_impl_t* dres = (number_impl_t*)res;
 

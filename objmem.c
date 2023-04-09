@@ -1,37 +1,34 @@
 #include <stdlib.h> // malloc, free
 
+
+#include "lp_function.h"
 #include "objmem.h"
 
 
-static void* list_mem(long size)
+void* list_mem(long size)
 {
     return malloc(sizeof(vector_t) + size * sizeof(void*));
 }
 
-static void* function_mem(void)
+void* dict_mem(long size)
 {
-    
+    return malloc(sizeof(table_t) + size * sizeof(tentry_t));
 }
 
-void* obj_mem(objtype_e objtype)
+void* function_mem(long num_args)
 {
-    switch (objtype)
-    {
-    case mem_primitive:
-        return;
-    case mem_function:
-        return;
-    case mem_list:
-        return;
-    case mem_dict:
-        return;
-    case mem_usertype:
-        return malloc(sizeof(object_t));
-    default:
-        return 0;
-    }
+    return malloc(sizeof(lang_fn_t) + sizeof(fn_arg_t) * num_args);
 }
 
+void* obj_mem(void)
+{
+    return malloc(sizeof(object_t));
+}
+
+void* usertype_mem(void)
+{
+    return malloc(sizeof(object_api_t));
+}
 
 
 void obj_free(object_t* obj)

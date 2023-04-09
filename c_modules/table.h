@@ -26,7 +26,8 @@ typedef struct
     void(*destroy)(table_t*);
     //
     int(*insert)(table_t* table, const char* key, void* value);
-    void*(*find)(const table_t*, const char*);
+    void*(*find)(const table_t* table, const char* key);
+    int(*delete)(table_t* table, const char* key);
 } table_api_t;
 
 

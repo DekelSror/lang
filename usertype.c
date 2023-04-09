@@ -1,12 +1,17 @@
+#include "objmem.h"
 #include "table.h"
+#include "mem_utils.h"
 #include "usertype.h"
-
 
 static char user_types_mem[4096] = { 0 };
 table_t* user_types;
 
-int create_user_type(const char* name, object_api_t* api)
+int create_usertype(const char* name)
 {
+    object_api_t* api = usertype_mem();
+    api->_attrs = dict_mem(20);
+    api->_methods = dict_mem(20);
+    api->_name = name;
 
     return Table.insert(user_types, name, api);
 }
@@ -104,10 +109,24 @@ int add_cmp_op(const char* type, object_ops_e op, cmp_op_fn fn)
     }
 }
 
+int add_function(const char* fn_name, object_api_t* rv_type, fn_body_t body, long num_args, fn_arg_t* args)
+{
+    lang_fn_t* fn = function_mem(num_args);
+
+    fn->_name = fn_name;
+    fn->_rv_type = rv_type;
+    fn->_body = body;
+    fn->_num_args = num_args;
+
+    Memutils.move(fn->_args, args, sizeof(fn_arg_t) * num_args);
+    
+    return Table.insert(program_functions, fn_name, fn);
+}
 
 int prepare_usertype(void)
 {
     user_types = Table.create(user_types_mem, 20);
+
 
     return 0;
 }

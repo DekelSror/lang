@@ -6,9 +6,9 @@
 
 static object_t* dict_create(void)
 {
-    object_t* this = obj_mem("dict");
+    object_t* this = obj_mem();
     this->_api = &dict_api;
-    this->_value = Table.create(); 
+    this->_value = dict_mem(20); 
 
     return this;
 }
