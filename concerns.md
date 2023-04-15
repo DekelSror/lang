@@ -1,5 +1,7 @@
 
 
+## current goal is just to have working examples of all types, then move on to compiler
+
 ## notice that lists and dicts play two roles - they are c modules but are also
 ## types in the language
 
@@ -24,4 +26,7 @@ return values, values that pass by ref
 elements in collections
 
 
-does dict[key] <- newVal violates immutability?
+does dict[key] <- newVal violates immutability? should we differentiate existing keys from new ones?
+
+also object_api doesn't support assignment to element....
+the concern here is the cutoff point between using the language with object_t and apis and using c_modules with regular void*

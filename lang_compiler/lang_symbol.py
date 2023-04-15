@@ -10,6 +10,7 @@ class Symbol:
     line: int
 
 
+
 def get_compiled(sym: Symbol):
     if sym.name == 'literal':
         return f'{sym.symbol_type}_literals[{sym.index}]'

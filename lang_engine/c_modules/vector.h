@@ -15,7 +15,7 @@ typedef struct
     vector_t*(*create)(void* mem, unsigned capacity);
     void(*destroy)(vector_t*);
     //
-    int(*add)(vector_t*, void*);
+    long(*add)(vector_t*, void*);
     void*(*at)(vector_t*, long index);
     //
     long(*size)(const vector_t* vector);

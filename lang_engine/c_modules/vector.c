@@ -1,8 +1,4 @@
-
-
 #include "vector.h"
-
-
 
 
 static vector_t* vector_create(void* mem, unsigned capacity)
@@ -50,3 +46,4 @@ const vector_api_t Vector = {
     .at = vector_at,
     .size = vector_size
 };
+

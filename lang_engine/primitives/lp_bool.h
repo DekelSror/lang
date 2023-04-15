@@ -4,8 +4,8 @@
 #include "object.h"
 
 extern object_api_t bool_api;
-extern object_t* lang_true;
-extern object_t* lang_false;
+extern const object_t* lang_true;
+extern const object_t* lang_false;
 
 bool_t is_true(const object_t* obj);
 int lp_bool_prepare(void);

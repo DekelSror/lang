@@ -1,7 +1,5 @@
-*
-/**
-!.gitignore
-!*.c
-!*.h
-!*.py
-!*.md
+*.out
+*.o
+*.a
+*.so
+lang_engine/build

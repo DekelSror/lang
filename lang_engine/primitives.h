@@ -18,10 +18,8 @@ void prepare_primitives()
 {
     // usertypes has add_attr, primitives use the tables
     lp_number_prepare();
-    lp_list_prepare();
+    // lp_list_prepare();
 
 }
-
-// end list
 
 #endif // lang_primitives_h

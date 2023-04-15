@@ -4,7 +4,7 @@ from lang_symbol import Symbol
 
 
 class Scope:
-    def __init__(self, parent) -> None:
+    def __init__(self, parent, scope_type='run') -> None:
         self.parent = parent
         self.names: list[Symbol] = []
         self.temps: list[Symbol] = []
@@ -12,6 +12,7 @@ class Scope:
             'number': [],
             'string': []
         }
+        self.scope_type = scope_type
         self.depth = 0
         if parent is not None:
             self.depth = parent.depth + 1
@@ -72,8 +73,8 @@ class ModulePart:
 class LangModule:
 
     def __init__(self) -> None:
-        self.init = ModulePart(None, Scope(None)) # file scope
-        self.prepare = ModulePart('prepare', Scope(self.init.scope))
+        self.init = ModulePart(None, Scope(None, 'global')) # file scope
+        self.prepare = ModulePart('prepare', Scope(self.init.scope, 'function'))
         self.run = ModulePart('main', Scope(self.init.scope))
 
         self.run.add_line('prepare();')

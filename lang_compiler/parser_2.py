@@ -134,9 +134,9 @@ def p_error(p):
 
 # statements
 
-def p_program(p):
-    ''' program : stmt 
-    | program stmt '''
+def p_stmt_compund(p):
+    ''' stmt : stmt 
+    | stmt_compund stmt '''
     p[0] = (p[1]) if len(p) == 2 else (p[1], p[2])
 
 def p_stmt_line(p):
@@ -152,13 +152,7 @@ def p_stmt_if(p):
     ''' stmt : if expr stmt '''
     p[0] = compile_if(p[2], p[3])
 
-# def p_stmt_scope(p):
-#     ''' stmt : '{' newline stmt '}' '''
-#     p[0] = p[3]
 
-# fn my_func(number arg1, string arg2, bool arg3) -> number {
-#   
-# }
 def p_stmt_fn_defn(p):
     ''' stmt : fn name '(' params ')' rv_type name '{' stmt '}' '''
     print(f'fn defn {p=}')
@@ -191,6 +185,11 @@ def p_expr_string(p):
 def p_expr_fn_call(p):
     ''' expr : name '(' commas ')' '''
 
+def p_expr_subscribe(p):
+    ''' expr : name '[' expr ']' '''
+
+def p_expr_method_call(p):
+    ''' expr : name '.' name '(' commas ')' '''
 
 def p_compare_expr(p):
     ''' expr : expr compare_op expr '''

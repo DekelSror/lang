@@ -3,7 +3,7 @@
 
 // country data class
 
-type Country {
+usertype Country {
     name: string
     code: string
     flagImage: string
@@ -33,7 +33,7 @@ type Country {
 
 
 run {
-    const response: Country <- await call('https//:countries...')
+    response <- await call('https//:countries...')
 
 
 

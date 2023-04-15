@@ -55,6 +55,7 @@ static object_t* list_method_filter(const object_t* list, lang_fn_t* fn, call_ar
     }
 
     object_t* rv = create_list(0);
+    // set elem type
 
     for (long i = 0; i < Vector.size(list->_value); i++)
     {
@@ -73,6 +74,36 @@ static object_t* list_method_filter(const object_t* list, lang_fn_t* fn, call_ar
             Vector.add(rv->_value, elem);
         }
     }
+
+    return rv;
+}
+
+static object_t* list_method_map(object_t* list, lang_fn_t* fn, call_arg_t* args)
+{
+    if (list->_api != &list_api)
+    {
+        return list;
+    }
+    
+    object_t* rv = create_list(0);
+    list_api._set_attr(rv, "elem_type", fn->_rv_type);
+
+    vector_t* vals = list->_value;
+    vector_t* target = rv->_value;
+
+    for (long i = 0; i < vals->_elem_count; i++)
+    {
+        object_t* elem = Vector.at(vals, i);
+
+        call_arg_t call_args = {
+            ._obj = elem,
+            ._next = args
+        };
+
+        object_t* res = fn_call(fn, &call_args);
+        Vector.add(target, res);
+    }
+    
 
     return rv;
 }
@@ -118,26 +149,37 @@ static int list_enlarge(object_t* list)
 }
 
 static object_t* list_init(object_t* this, object_t* _raw_list) {
-    // check the right side exprerssion
-    // if another list, call copy
-    // if a temp list (such as .map of another list) use the temp
-// initialize from literal -> null-terminated C array of pointers
     object_t** raw_list = (object_t**)_raw_list;
-    int size = 0;
+    object_api_t* list_elem_type = Table.find(this->_api->_attrs, "elem_type");
 
     for (object_t* elem = raw_list; elem != 0; elem++)
     {
+        if (elem->_api != list_elem_type) 
+        {
+            // possibly raise
+            // try to convert
+            // ultimately ignore
+            continue;
+        }
+
         Vector.add(this->_value, elem);
-        size++;
     }
 
     return this;
 }
 
+static object_t* list_get_length(object_t* list)
+{
+    // return number_api._create Vector.size(list->_value);
+}
+
 int lp_list_prepare(void) {
     Table.insert(list_api._attrs, "length", &number_api);
+    Table.insert(list_api._attrs, "elem_type", 0);
 
-    Table.insert(list_api._methods, "map", 0);
+    
+
+    Table.insert(list_api._methods, "map", list_method_map);
     Table.insert(list_api._methods, "filter", list_method_filter);
     Table.insert(list_api._methods, "sort", 0);
     Table.insert(list_api._methods, "reduce", 0);

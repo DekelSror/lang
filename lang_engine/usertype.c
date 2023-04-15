@@ -6,7 +6,7 @@
 static char user_types_mem[4096] = { 0 };
 table_t* user_types;
 
-int create_usertype(const char* name)
+int create_usertype(char* name)
 {
     object_api_t* api = usertype_mem();
     api->_attrs = dict_mem(20);
@@ -129,4 +129,10 @@ int prepare_usertype(void)
 
 
     return 0;
+}
+
+
+int clean_usertype(void)
+{
+    table_free(user_types);
 }

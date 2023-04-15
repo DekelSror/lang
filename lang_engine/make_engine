@@ -1,0 +1,33 @@
+
+
+includes= -I. -I./primitives -I./c_modules
+
+source_files=objmem object primitives/lp_number primitives/lp_function usertype c_modules/vector c_modules/table \
+	c_modules/mhash c_modules/mem_utils
+
+modules= $(addsuffix .c, $(source_files))
+
+objects=$(addprefix build/, $(addsuffix .o, $(source_files)))
+
+
+library: prepare $(moduls) $(objects)
+	ar cr lang_engine.a $(objects)
+
+
+build/%.o: %.c
+	gcc -g -c -Wall -Wextra $(includes) $< -o $@
+
+build/primitives/%.o: %.c
+	gcc -g -c -Wall -Wextra $(includes) $< -o $@
+
+
+.PHONY: prepare clean
+
+prepare:
+	mkdir build
+	mkdir build/primitives
+	mkdir build/c_modules
+
+
+clean:
+	rm -rf build

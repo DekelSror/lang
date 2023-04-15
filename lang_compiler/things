@@ -1,0 +1,18 @@
+
+initialize
+- variable
+- element
+
+control flow - 
+- conditions
+- loops
+
+subscribe - 
+list - with number, range, or filter expr
+
+scope types - 
+usertype context - in method definitions, when subscribing to collection of usertypes
+can access attr with .attr_name, methods too
+
+function scope - run {} or fn definitions
+- 

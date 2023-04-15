@@ -14,7 +14,7 @@
             nick: 9
         }
 
-        users['joe'] <- 7
+        users['rich'] <- 7
 
         print(users['frank' | 'nick'])
     }
@@ -23,7 +23,7 @@
 
 static char dict_mem[0x1000] = { 0 };
 static const double number_literals[] = {4.0, 1.0, 9.0, 7.0};
-static const char* string_literals[] = {"joe", "frank", "nick"};
+static const char* string_literals[] = {"joe", "frank", "nick", "rich"};
 
 int main(void)
 {
@@ -43,7 +43,7 @@ int main(void)
 
     // object_t* nlit_0 = number_api._create(number_literals + 3);
     
-    Table.insert(dict->_value, string_literals + 0, number_literals + 3);
+    Table.insert(dict->_value, string_literals + 3, number_literals + 3);
 
     // subscribe filter fn ['frank' | 'nick']
 
